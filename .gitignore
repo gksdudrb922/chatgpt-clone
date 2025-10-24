@@ -14,4 +14,4 @@ uv.lock
 .pylintrc
 output/
 chromadb-*
-ai-memory.db*
+*.db*
