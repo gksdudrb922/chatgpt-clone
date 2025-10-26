@@ -1,4 +1,3 @@
-
 import dotenv
 
 dotenv.load_dotenv()
@@ -164,14 +163,21 @@ async def run_agent(message):
             "args": ["mcp-yahoo-finance"],
         },
         cache_tools_list=True,
-        client_session_timeout_seconds=60.0,
     )
 
-    async with yfinance_server:
+    timezone_server = MCPServerStdio(
+        params={
+            "command": "uvx",
+            "args": ["mcp-server-time", "--local-timezone=America/New_York"],
+        }
+    )
+
+    async with yfinance_server, timezone_server:
 
         agent = Agent(
             mcp_servers=[
                 yfinance_server,
+                timezone_server,
             ],
             name="ChatGPT Clone",
             instructions="""
